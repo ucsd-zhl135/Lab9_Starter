@@ -5,6 +5,13 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "e39dc04b1a9b4e8589ae06225314cbad"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
   <title>Lab 9</title>
 
   <style>
@@ -88,6 +95,15 @@
   </main>
 
   <script>
+    window.onerror = ()=>{
+      console.log('onerror')
+    }
+    class CalcError extends Error{
+      constructor(message){
+        super(message)
+        this.name = "CalcError"
+      }
+    }
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -95,13 +111,44 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
+      if(isNaN(firstNum) || isNaN(secondNum)) throw new CalcError("not a number")
       output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
     });
 
-    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+    let e = Array.from(document.querySelectorAll('#error-btns > button'));
 
     // Start your code here
     // You may move this JS to another file if you wish
+    let f = (i,g) => {
+      e[i].addEventListener('click',g)
+    }
+    f(0,console.log)
+    f(1,console.error)
+    f(2,console.count)
+    f(3,console.warn)
+    f(4,()=>{console.assert(false)})
+    f(5,console.clear)
+    f(6,console.dir)
+    f(7,console.dirxml)
+    f(8,console.group)
+    f(9,console.groupEnd)
+    f(10,()=>{console.table([1,2,3,4,5])})
+    f(11,console.time)
+    f(12,console.timeEnd)
+    f(13,()=>{console.trace()})
+    f(14,()=>{
+      document.querySelector('bitset').addEventListener('click',()=>{})
+    })
+
+
+    try{
+      document.querySelector('amogus').addEventListener('click',()=>{})
+    } catch(err){
+      console.log('error',err)
+    } finally{
+      console.log('amogus')
+    }
+    
   </script>
 </body>
 
